@@ -1,7 +1,7 @@
 opencollection: 1.0.0
 
 info:
-  name: API do Professor
+  name: Api do Professor
 bundled: false
 extensions:
   bruno:
