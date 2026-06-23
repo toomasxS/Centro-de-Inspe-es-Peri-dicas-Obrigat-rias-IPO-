@@ -1,7 +1,7 @@
 import { useNavigate, Routes, Route, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-const API_BASE = 'https://effective-capybara-v665669654wghp5gj-3000.app.github.dev'
+const API_BASE = 'https://turbo-zebra-wrr4rrpr4wjrhg749-3000.app.github.dev'
 
 function App() {
   return (
@@ -24,6 +24,15 @@ function App() {
           <Route path="/veiculos" element={<VeiculosList />} />
           <Route path="/inspecoes" element={<InspecoesList />} />
         </Routes>
+
+        <Routes>
+          <Route path="/clientes/create" element={<ClienteForm modo="create" />} />
+          <Route path="/clientes/update/:id" element={<ClienteForm modo="update" />} />
+          <Route path="/clientes/read/:id" element={<ClienteForm modo="read" />} />
+        </Routes>
+
+        <button className="btn btn-dark" onClick={() => navigate('/marcas')}>Lista de Marcas</button>
+
       </div>
     </div>
   );
@@ -302,6 +311,11 @@ function VeiculosList() {
     </>
   );
 }
+
+function ClienteForm() {
+  return(<div><h2>Formulário de Cliente</h2></div>);
+}
+
 function InspecoesList() {
   return (<h2>Página de Inspeções</h2>);
 }
