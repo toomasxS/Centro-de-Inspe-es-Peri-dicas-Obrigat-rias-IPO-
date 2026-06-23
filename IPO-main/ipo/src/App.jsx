@@ -1,7 +1,7 @@
-import { useNavigate, Routes, Route, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-const API_BASE = 'https://turbo-zebra-wrr4rrpr4wjrhg749-3000.app.github.dev'
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
+
+const API_BASE = 'https://turbo-zebra-wrr4rrpr4wjrhg749-3000.app.github.dev';
 
 function App() {
   return (
@@ -24,47 +24,38 @@ function App() {
           <Route path="/veiculos" element={<VeiculosList />} />
           <Route path="/inspecoes" element={<InspecoesList />} />
         </Routes>
-
-        <Routes>
-          <Route path="/clientes/create" element={<ClienteForm modo="create" />} />
-          <Route path="/clientes/update/:id" element={<ClienteForm modo="update" />} />
-          <Route path="/clientes/read/:id" element={<ClienteForm modo="read" />} />
-        </Routes>
-
-        <button className="btn btn-dark" onClick={() => navigate('/marcas')}>Lista de Marcas</button>
-
       </div>
     </div>
   );
 }
+
 // Estas páginas serão criadas nas próximas etapas
 function Inicio() {
-  return <div className="jumbotron">
-    <div className="text-center">
-      <h1>Centro de Inspeções de Automóveis</h1>
-      <p>IPO - ESDS1</p>
+  return (
+    <div>
+      <div className="jumbotron text-center">
+        <h1>Centro de Inspeções de Automoveis</h1>
+        <p>IPO - ESDS1</p>
+      </div>
     </div>
-  </div>
-
+  );
 }
-
 function ClientesList() {
+  const [deleteId, setDeleteId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mensagemErro, setMensagemErro] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
   }, []);
 
+
   const openDeleteModal = (id) => {
     setDeleteId(id);
     setShowDeleteModal(true);
   };
-
   const closeDeleteModal = () => {
     setDeleteId(null);
     setShowDeleteModal(false);
@@ -87,6 +78,7 @@ function ClientesList() {
     }
   };
 
+
   const fetchData = async () => {
     try {
       const response = await fetch(API_BASE + '/clientes');
@@ -102,6 +94,7 @@ function ClientesList() {
       setLoading(false);
     }
   };
+
   if (loading) return <p>Carregando...</p>;
   return (
     <>
@@ -150,7 +143,6 @@ function ClientesList() {
           ))}
         </tbody>
       </table>
-
       {showDeleteModal && (
         <>
           <div className="modal-backdrop fade show"></div>
@@ -178,15 +170,23 @@ function ClientesList() {
     </>
   );
 }
+
+
+
+
+
+
+
+
 function VeiculosList() {
+  const [deleteId, setDeleteId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [veiculos, setVeiculos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [mensagemErro, setMensagemErro] = useState(null);
-  const [deleteId, setDeleteId] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const navigate = useNavigate();
   useEffect(() => {
+
     fetchData();
   }, []);
 
@@ -210,9 +210,8 @@ function VeiculosList() {
         setMensagemErro(data.message);
       }
     } catch {
-      setMensagemErro('Erro ao eliminar veículo');
-    }
-    finally {
+      setMensagemErro('Erro ao eliminar veiculo');
+    } finally {
       closeDeleteModal();
     }
   };
@@ -227,7 +226,7 @@ function VeiculosList() {
         setMensagemErro(data.message);
       }
     } catch {
-      setMensagemErro('Erro ao carregar veículos');
+      setMensagemErro('Erro ao carregar Veiculos');
     } finally {
       setLoading(false);
     }
@@ -237,10 +236,10 @@ function VeiculosList() {
     <>
       <div className="row">
         <div className="col-6">
-          <h2>Veículos</h2>
+          <h2>Veiculos</h2>
         </div>
         <div className="col-6 text-right">
-          <button className="btn btn-dark ml-3" ><i className="fa fa-plus-square" aria-hidden="true"></i> Novo Veículo</button>
+          <button className="btn btn-dark ml-3" ><i className="fa fa-plus-square" aria-hidden="true"></i> Novo Veiculo</button>
           <button className="btn btn-light ml-3" onClick={fetchData}><i className="fa fa-refresh" aria-hidden="true"></i> Atualizar</button>
         </div>
       </div>
@@ -258,24 +257,25 @@ function VeiculosList() {
             <th>Código</th>
             <th>Matrícula</th>
             <th>Data Livrete</th>
-            <th>Ano Fábrico</th>
-            <th>Nome Cliente</th>
+            <th>Ano farbrico</th>
+            <th>Nome do cliente</th>
             <th>Marca</th>
+            <th>Opções</th>
           </tr>
         </thead>
         <tbody>
-          {veiculos.map(veiculo => (
-            <tr key={veiculo.codveiculo}>
-              <td>{veiculo.codveiculo}</td>
-              <td>{veiculo.codmatricula}</td>
-              <td>{veiculo.datalivrete}</td>
-              <td>{veiculo.anofabrico}</td>
-              <td>{veiculo.cliente.nome}</td>
-              <td>{veiculo.marca.marca}</td>
+          {veiculos.map(veiculos => (
+            <tr key={veiculos.codveiculo}>
+              <td>{veiculos.codveiculo}</td>
+              <td>{veiculos.codmatricula}</td>
+              <td>{veiculos.datalivrete}</td>
+              <td>{veiculos.anofabrico}</td>
+              <td>{veiculos.cliente.nome}</td>
+              <td>{veiculos.marca.marca}</td>
               <td style={{ whiteSpace: 'nowrap' }}>
                 <button className="btn btn-dark btn-sm mr-2" ><i className='fa fa-eye' aria-hidden='true'></i></button>
                 <button className="btn btn-dark btn-sm mr-2" ><i className='fa fa-pencil' aria-hidden='true'></i></button>
-                <button className="btn btn-dark btn-sm" onClick={() => openDeleteModal(veiculo.codveiculo)}>
+                <button className="btn btn-dark btn-sm" onClick={() => openDeleteModal(veiculos.codveiculo)}>
                   <i className='fa fa-trash' aria-hidden='true'></i>
                 </button>
               </td>
@@ -283,7 +283,143 @@ function VeiculosList() {
           ))}
         </tbody>
       </table>
+      {showDeleteModal && (
+        <>
+          <div className="modal-backdrop fade show"></div>
+          <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Confirmação</h5>
+                  <button type="button" className="close" onClick={closeDeleteModal}>
+                    <span>&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <p>Tem certeza que deseja eliminar este veiculo?</p>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={closeDeleteModal}>Cancelar</button>
+                  <button type="button" className="btn btn-danger" onClick={() => confirmDelete(deleteId)}>Confirmar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
+    </>
+  );
+}
+
+
+function InspecoesList() {
+  const [deleteId, setDeleteId] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [inspecoes, setInspecoes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [mensagemErro, setMensagemErro] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const openDeleteModal = (id) => {
+    setDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteId(null);
+    setShowDeleteModal(false);
+  };
+
+  const confirmDelete = async (id) => {
+    try {
+      const response = await fetch(API_BASE + '/inspecoes/' + id, { method: 'DELETE' });
+      const data = await response.json();
+      if (data.success) {
+        fetchData();
+      } else {
+        setMensagemErro(data.message);
+      }
+    } catch {
+      setMensagemErro('Erro ao eliminar inspeção');
+    }
+    finally {
+      closeDeleteModal();
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(API_BASE + '/inspecoes');
+      const data = await response.json();
+      if (data.success) {
+        setInspecoes(data.data);
+      } else {
+        setMensagemErro(data.message);
+      }
+    } catch {
+      setMensagemErro('Erro ao carregar inspeções');
+    } finally {
+      setLoading(false);
+    }
+  };
+  if (loading) return <p>Carregando...</p>;
+  return (
+    <>
+      <div className="row">
+        <div className="col-6">
+          <h2>Página de Inspeções</h2>
+        </div>
+        <div className="col-6 text-right">
+          <button className="btn btn-dark ml-3" ><i className="fa fa-plus-square" aria-hidden="true"></i> Nova Inspeção</button>
+          <button className="btn btn-light ml-3" onClick={fetchData}><i className="fa fa-refresh" aria-hidden="true"></i> Atualizar</button>
+        </div>
+      </div>
+      {mensagemErro && (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          {mensagemErro}
+          <button type="button" className="close" onClick={() => setMensagemErro('')} aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      )}
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Codigo Inspeção</th>
+            <th>Código Cliente</th>
+            <th>Código Matrícula</th>
+            <th>Código Inspetor</th>
+            <th>Data Inspeção</th>
+            <th>Número Faltas</th>
+            <th>Descrição Faltas</th>
+            <th>Aprovado</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inspecoes.map(inspecao => (
+            <tr key={inspecao.codinspecao}>
+              <td>{inspecao.codinspecao}</td>
+              <td>{inspecao.codcli}</td>
+              <td>{inspecao.codmatricula}</td>
+              <td>{inspecao.codinspetor}</td>
+              <td>{inspecao.datainspecao}</td>
+              <td>{inspecao.numerofaltas}</td>
+              <td>{inspecao.descricaofaltas}</td>
+              <td>{inspecao.aprovado}</td>
+              <td style={{ whiteSpace: 'nowrap' }}>
+                <button className="btn btn-dark btn-sm mr-2" ><i className='fa fa-eye' aria-hidden='true'></i></button>
+                <button className="btn btn-dark btn-sm mr-2" ><i className='fa fa-pencil' aria-hidden='true'></i></button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {showDeleteModal && (
         <>
           <div className="modal-backdrop fade show"></div>
@@ -310,14 +446,6 @@ function VeiculosList() {
       )}
     </>
   );
-}
-
-function ClienteForm() {
-  return(<div><h2>Formulário de Cliente</h2></div>);
-}
-
-function InspecoesList() {
-  return (<h2>Página de Inspeções</h2>);
 }
 
 export default App
