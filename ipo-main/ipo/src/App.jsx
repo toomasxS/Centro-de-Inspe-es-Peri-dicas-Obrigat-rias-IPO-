@@ -227,7 +227,7 @@ function ClienteForm({ modo }) {
         if (modo === 'update') {
           navigate('/clientes');
         } else {
-          navigate('/clientes/'  + id);
+          navigate('/clientes');
         }
       } else {
         setMensagemErro(data.message);
