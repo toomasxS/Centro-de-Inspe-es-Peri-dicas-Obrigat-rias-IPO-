@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Routes, Route, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const API_BASE = 'https://reimagined-tribble-4jjrjj5jrxw7357j6-3000.app.github.dev';
 
@@ -138,10 +139,14 @@ function ClientesList() {
               <td>{cliente.codcli}</td>
               <td>{cliente.nome}</td>
               <td>{cliente.morada}</td>
-              <td>{cliente.nif}</td>
+              <td>{cliente.nif}</td>  
               <td style={{ whiteSpace: 'nowrap' }}>
-                <button className="btn btn-dark btn-sm mr-2" ><i className='fa fa-eye' aria-hidden='true'></i></button>
-                <button className="btn btn-dark btn-sm mr-2" ><i className='fa fa-pencil' aria-hidden='true'></i></button>
+                <button className="btn btn-dark btn-sm mr-2" onClick={() => navigate(`/clientes/read/${cliente.codcli}`)}>
+                  <i className='fa fa-eye' aria-hidden='true'></i>
+                </button>
+                <button className="btn btn-dark btn-sm mr-2" onClick={() => navigate(`/clientes/update/${cliente.codcli}`)}> 
+                  <i className='fa fa-pencil' aria-hidden='true'></i>
+                </button>
                 <button className="btn btn-dark btn-sm" onClick={() => openDeleteModal(cliente.codcli)}>
                   <i className='fa fa-trash' aria-hidden='true'></i>
                 </button>
@@ -193,7 +198,7 @@ function ClienteForm({ modo }) {
   const fetchData = async () => {
     try {
       if (id) {
-        const response = await fetch(API_BASE + '/clientes/id' + id);
+        const response = await fetch(API_BASE + '/clientes/' + id);
         const data = await response.json();
         if (data.success) {
           setFormData(data.data);
@@ -219,10 +224,10 @@ function ClienteForm({ modo }) {
       });
       const data = await response.json();
       if (data.success) {
-        if(modo === 'update') {
-          navigate('/clientes/' + id);
-        } else {
+        if (modo === 'update') {
           navigate('/clientes');
+        } else {
+          navigate('/clientes/'  + id);
         }
       } else {
         setMensagemErro(data.message);
@@ -250,10 +255,9 @@ function ClienteForm({ modo }) {
       <div className="row">
         <div className="col-sm-8">
           <div className="form-group">
-            <label for="nome">Nome:</label>
+            <label htmlFor="nome">Nome:</label>
             <input type="text" className="form-control" value={formData.nome} onChange={(e) => setFormData({
               ...formData, nome:
-
                 e.target.value
             })} required readOnly={modo === 'read'} />
           </div>
@@ -262,7 +266,7 @@ function ClienteForm({ modo }) {
       <div className="row">
         <div className="col-sm-6">
           <div className="form-group">
-            <label>Morada</label>
+            <label htmlFor="morada">Morada</label>
             <input type="text" className="form-control" value={formData.morada} onChange={(e) => setFormData({
               ...formData, morada:
                 e.target.value
@@ -271,10 +275,9 @@ function ClienteForm({ modo }) {
         </div>
         <div className="col-sm-6">
           <div className="form-group">
-            <label>NIF</label>
+            <label htmlFor="nif">NIF</label>
             <input type="text" className="form-control" value={formData.nif} onChange={(e) => setFormData({
               ...formData, nif:
-
                 e.target.value
             })} required readOnly={modo === 'read'} />
           </div>
